@@ -1,0 +1,39 @@
+/* Style général pour le composant file-preview */
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.file-name {
+  flex-grow: 1; /* Permet au nom de fichier de prendre tout l'espace disponible */
+  overflow: hidden; /* Gère le débordement du texte si trop long */
+  text-overflow: ellipsis; /* Affiche ... en fin de texte débordant */
+  white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+}
+
+.file-preview button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-preview button#aff {
+  background-color: #36f46f;
+  color: white;
+  margin-left: auto; /* Fixe le bouton "Afficher" à droite */
+  margin-right: 0.75rem; /* Ajoute un espace entre "Afficher" et "Supprimer" */
+}
+
+.file-preview button#sup {
+  background-color: #f44336;
+  color: white;
+}
