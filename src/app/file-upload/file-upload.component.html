@@ -2,34 +2,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste projets</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Side Nav Component -->
-            <div class="col-md-3">
-                <app-side-nav></app-side-nav>
-            </div>   
-            <!-- Main Content -->
-   <div class="modal-body">
-      <h2 class="modal-title">Déposer vos documents ici</h2>
-        <h6>Choisissez des noms de fichiers explicites svp</h6>
-      <input type="file" (change)="onFileSelected($event)" multiple>
-      <div class="file-previews">
-        <div class="file-preview" *ngFor="let file of uploadedFiles">
-          <div class="file-info">
-            <span>{{ file.name }}</span>
-            <span class="file-size">{{ formatBytes(file.size) }}</span>
+    <!-- file-upload.component.html -->
+<div class="container-fluid">
+  <div class="row">
+      <!-- Side Nav Component -->
+      <div class="col-md-3">
+          <app-side-nav></app-side-nav>
+      </div>   
+      <!-- Main Content -->
+      <div class="modal-body">
+          <h2 class="modal-title">Déposer vos documents ici</h2>
+          <h6>Choisissez des noms de fichiers explicites svp</h6>
+          <input type="file" (change)="onFileSelected($event)" multiple>
+          <div class="file-previews">
+              <div class="file-preview" *ngFor="let file of uploadedFiles">
+                  <div class="file-info">
+                      <span>{{ file.name }}</span>
+                      <span class="file-size">{{ formatBytes(file.size) }}</span>
+                  </div>
+                  <button id="aff">Telecharger</button>
+                  <button id="sup" (click)="removeFile(file)">Supprimer</button>
+              </div>
           </div>
-          <button id="aff" (click)="viewFileDetails(file)">Afficher</button>
-          <button id="sup" (click)="removeFile(file)">Supprimer</button>
-        </div>
+          <canvas id="pdfCanvas"></canvas>
       </div>
-    </div>
-    <div class="modal-footer">
-      <!-- Boutons de pied de page ici si nécessaire -->
-    </div>
-  
+      <div class="modal-footer">
+          <!-- Boutons de pied de page ici si nécessaire -->
+      </div>
+  </div>
+</div>
+</body>
+</html>

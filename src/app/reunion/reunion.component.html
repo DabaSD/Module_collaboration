@@ -1,0 +1,78 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <!-- file-upload.component.html -->
+<div class="container-fluid">
+  <div class="row">
+      <!-- Side Nav Component -->
+      <div class="col-md-3">
+          <app-side-nav></app-side-nav>
+      </div>   
+      <!-- Main Content -->
+      <form (ngSubmit)="onSubmit()" #reunionForm="ngForm">
+        <div>
+          <label for="date">Date:</label>
+          <input type="date" id="date" required [(ngModel)]="reunion.date" name="date">
+        </div>
+      
+        <div>
+          <label for="time">Heure:</label>
+          <input type="time" id="time" required [(ngModel)]="reunion.time" name="time">
+        </div>
+      
+        <div>
+          <label>Type:</label>
+          <input type="radio" id="online" value="online" [(ngModel)]="reunion.type" name="type" required>
+          <label for="online">En ligne</label>
+          <input type="radio" id="in-person" value="inPerson" [(ngModel)]="reunion.type" name="type">
+          <label for="in-person">En présentiel</label>
+        </div>
+      
+        <div *ngIf="reunion.type === 'online'">
+          <div>
+            <label for="link">Lien:</label>
+            <input type="url" id="link" [(ngModel)]="reunion.link" name="link" required>
+          </div>
+          <div>
+            <label for="onlineDetails">Détails de la réunion en ligne:</label>
+            <textarea id="onlineDetails" [(ngModel)]="reunion.onlineDetails" name="onlineDetails" required></textarea>
+          </div>
+        </div>
+      
+        <div *ngIf="reunion.type === 'inPerson'">
+          <div>
+            <label for="location">Lieu:</label>
+            <input type="text" id="location" [(ngModel)]="reunion.location" name="location" required>
+          </div>
+          <div>
+            <label for="inPersonDetails">Détails de la réunion en présentiel:</label>
+            <textarea id="inPersonDetails" [(ngModel)]="reunion.inPersonDetails" name="inPersonDetails" required></textarea>
+          </div>
+        </div>
+      
+        <div>
+            <label for="attendees">Selectionnez les participants de la reunion:</label>
+            <select id="attendees" [(ngModel)]="reunion.selectedAttendees" 
+                    (ngModelChange)="addAttendee($event)" 
+                    name="attendees" multiple required>
+              <option *ngFor="let user of users" [value]="user">{{ user }}</option>
+            </select>
+          </div>
+        
+          <div>
+            <input type="text" id="attendeesText" [(ngModel)]="reunion.attendeesText" name="attendeesText" readonly>
+          </div>
+      
+        <button type="submit" [disabled]="!reunionForm.form.valid">Planifier</button>
+      </form>
+  </div>
+</div>
+</body>
+</html>
+      

@@ -1,8 +1,10 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { FileService } from '../services/file-service.service';
 import { FilePreviewComponent } from '../file-preview/file-preview.component';
+import * as pdfjsLib from 'pdfjs-dist';
+
 
 @Component({
   selector: 'app-file-upload',
@@ -14,8 +16,10 @@ import { FilePreviewComponent } from '../file-preview/file-preview.component';
 })
 export class FileUploadComponent {
   constructor(private fileService: FileService) {}
+  pdfSrc: any;
 
   onFileSelected(event: any) {
+    console.log('Files selected');
     const files: FileList = event.target.files;
     for (const file of Array.from(files)) {
       this.fileService.addFile(file);
@@ -27,17 +31,48 @@ export class FileUploadComponent {
   }
 
   removeFile(file: File) {
+    console.log('Removing file', file.name);
     this.fileService.removeFile(file);
   }
 
-  // Méthode pour afficher les détails du fichier (exemple)
-  viewFileDetails(file: File) {
-    alert(`Nom du fichier : ${file.name}\nTaille : ${file.size} octets\nType : ${file.type}`);
-    // Implémentez ici la logique pour afficher les détails du fichier selon vos besoins
+ /* viewFileDetails(file: File) {
+    console.log('View file details', file.name);
+    if (file.type === 'application/pdf') {
+      const fileReader = new FileReader();
+      fileReader.onload = (e: any) => {
+        console.log('File loaded');
+        this.pdfSrc = e.target.result;
+        this.renderPDF(this.pdfSrc);
+      };
+      fileReader.readAsArrayBuffer(file);
+    }
   }
 
-  
-  // Méthode pour formater la taille du fichier en octets, ko, Mo, Go, etc.
+  renderPDF(data: ArrayBuffer) {
+    console.log('Rendering PDF');
+    const loadingTask = pdfjsLib.getDocument({ data });
+    loadingTask.promise.then(pdf => {
+      console.log('PDF loaded');
+      pdf.getPage(1).then(page => {
+        console.log('Page loaded');
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale });
+        const canvas: any = document.getElementById('pdfCanvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        page.render(renderContext).promise.then(() => {
+          console.log('Page rendered');
+        });
+      });
+    });
+  }*/
+
   formatBytes(bytes: number, decimals = 2): string {
     if (bytes === 0) return '0 Bytes';
 
@@ -50,6 +85,3 @@ export class FileUploadComponent {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 }
-
-
-
